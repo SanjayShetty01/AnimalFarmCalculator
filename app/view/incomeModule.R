@@ -7,6 +7,7 @@ box::use(../../app/logic/readFarmInfoData)
 
 generateSliderInputs <- function(ns, prefix, numLevels, min, max, value) {
   lapply(1:numLevels, function(level) {
+
     shiny::sliderInput(ns(paste0(prefix, level)),
                 paste('Enter the number of the Animal in Level', level),
                 min = min, max = max, value = value)
@@ -22,13 +23,15 @@ incomeTabUI <- function(id){
     shiny::h3(shiny::textOutput(ns('IncomeDay'))),
     shiny::h3(shiny::textOutput(ns('IncomeMonth'))),
     shiny::h3(shiny::textOutput(ns('IncomeYear'))),
-    shiny::h3(shiny::textOutput(ns('Shopcost'))),
-    shiny::h3(shiny::textOutput(ns('YieldFarm'))),
-    shiny::h3(shiny::textOutput(ns('FarmReqDay'))),
+    #shiny::h3(shiny::textOutput(ns('Shopcost'))),
+    #shiny::h3(shiny::textOutput(ns('YieldFarm'))),
+    #shiny::h3(shiny::textOutput(ns('FarmReqDay'))),
 
     shiny::br(),
     shiny::br(),
+
     do.call(shiny::tagList, sliderInputs))
+
 }
 
 
@@ -108,21 +111,21 @@ incomeTabServer <- function(id){
 
 
       paste0("The Cost of the shop is ",
-             format(shopCost, big.mark = ',', trim = T), ' Coins')
+             format(shopTotalCost, big.mark = ',', trim = T), ' Coins')
     })
 
     output$YieldFarm <- shiny::renderText({
       totalYield <- calculateYield$calculateTotalYield(
-        inputName = "tab2-levels")
+        inputName = input$tab2-levels)
 
 
       paste0("The Yield of the farm for a year is ",
-             format(yield, big.mark = ',', trim = T), '%')
+             format(totalYield, big.mark = ',', trim = T), '%')
     })
 
     output$FarmReqDay <- shiny::renderText({
       reqDay <- investmentRecoveryTime$investmentRecoveryTimeFarm(
-        inputName = "tab2-levels")
+        inputName = input$tab2-levels)
 
       paste0("The Number of days to get back your Investments in the farm is ",
              format(reqDay, big.mark = ',', trim = T), 'days')

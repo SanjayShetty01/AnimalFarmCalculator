@@ -23,7 +23,7 @@ shopAnalysisUI <- function(id){
                                                         20, 20, 20, 15, 15, 15,
                                                         15, 15, 15, 10, 10, 10,
                                                         10, 10), ns)
-  shiny::flowLayout(do.call(shiny::tagList, animalShopSliderInputs))
+  shiny::fluidPage(do.call(shiny::tagList, animalShopSliderInputs))
 
 }
 
