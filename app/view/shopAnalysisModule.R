@@ -32,8 +32,6 @@ shopAnalysisServer <- function(id) {
   shiny::moduleServer(
     id,
     function(input, output, session) {
-
-
     }
   )
 }
