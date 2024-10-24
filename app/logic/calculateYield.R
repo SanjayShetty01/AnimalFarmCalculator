@@ -45,13 +45,11 @@ calculateYield <- function(level, nAnimal, store_type = "DailyPrice",
 #'
 #' @export
 
-calculateTotalYield <- function(inputName){
-  totalShopCost <- calculateCost$calculateTotalShopCost(inputName = inputName)
-  totalDailyIncome <- calculateIncome$calculateDailyIncome(inputName = inputName)
-
-  totalYearlyIncome <- totalDailyIncome * 30 * 365
+calculateTotalYield <- function(level, nAnimals){
+  totalShopCost <- calculateCost$calculateTotalShopCost(nAnimals)
+  totalYearlyIncome <- calculateIncome$calculateYearlyIncome(level, nAnimals)
 
   totalYield <- ifelse(totalShopCost == 0, 0,
                        (totalYearlyIncome/totalShopCost) * 100)
-  return(totalYield)
+  return(round(totalYield, 2))
 }

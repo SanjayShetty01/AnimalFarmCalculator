@@ -46,9 +46,9 @@ investmentRecoveryTime <- function(level, nAnimal, store_type = "DailyPrice",
 #' # investmentRecoveryTimeFarm("level")
 #'
 #' @export
-investmentRecoveryTimeFarm <- function(inputName){
-  totalShopCost <- calculateCost$calculateTotalShopCost(inputName = inputName)
-  totalDailyIncome <- calculateIncome$calculateDailyIncome(inputName = inputName)
+investmentRecoveryTimeFarm <- function(level, nAnimals){
+  totalShopCost <- calculateCost$calculateTotalShopCost(nAnimals)
+  totalDailyIncome <- calculateIncome$calculateDailyIncome(level, nAnimals)
 
   totalYield <- round(ifelse(totalShopCost == 0, 0,
                              (totalShopCost/totalDailyIncome)), 2)

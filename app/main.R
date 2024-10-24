@@ -1,8 +1,8 @@
 box::use(shiny, plotly, bs4Dash)
 box::use(
-  ./view/incomeModule,
-  ./view/shopAnalysisModule,
-  ./view/yieldModule,
+  ./view/setupModule,
+  ./view/dashboardModule,
+  ./view/overviewModule,
   ./view/sidebarMenu,
   ./view/dashboardBody,
   ./view/dashBrand
@@ -12,7 +12,7 @@ box::use(
 ui <- function(id) {
   ns <- shiny::NS(id)
   header <- bs4Dash::dashboardHeader(title = dashBrand$title)
-  sidebar <- bs4Dash::dashboardSidebar(sidebarMenu$sidebarMenu,
+  sidebar <- bs4Dash::dashboardSidebar(sidebarMenu$sidebarMenu(ns),
                                        minified = F)
 
   body <- bs4Dash::dashboardBody(dashboardBody$mainBody(ns))
@@ -29,10 +29,13 @@ ui <- function(id) {
 #' @export
 server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    yieldModule$yieldTabServer("tab1")
 
-    incomeModule$incomeTabServer("tab2")
+    overviewModule$yieldTabServer("tab1")
 
-    shopAnalysisModule$shopAnalysisServer("tab3")
+    levelData <- setupModule$incomeTabServer("tab2")
+
+    dashboardBody$mainBodyServer("submit_portfolio")
+
+    dashboardModule$shopAnalysisServer("tab3", data = levelData)
   })
 }

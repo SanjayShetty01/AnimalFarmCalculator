@@ -40,15 +40,27 @@ calculateIncome <- function(level, nAnimal){
 #' @export
 
 
-calculateDailyIncome <- function(inputName){
-    levels <- paste0(inputName, 1:20)
-    data <- readFarmInfoData$readFarmInfoData()
-    totalIncome <- sapply(levels, \(x) inputName[[x]] *
-                       data$Expected_Income_Per_Hour[as.numeric(sub(inputName,
-                                                                  '', x))]) |>
-      sum() |>
-      (\(x) x * 24)()
-      round(2)
-    return(totalIncome)
+calculateDailyIncome <- function(level, nAnimals){
+
+  totalIncome <- mapply(calculateIncome, level, nAnimals) |>
+    sum() |>
+    (\(x) x * 24)()
+  return(round(totalIncome, 2))}
+
+#' @export
+calculateMonthlyIncome <- function(level, nAnimals) {
+
+  totalIncome <- mapply(calculateIncome, level, nAnimals) |>
+    sum() |>
+    (\(x) x * 24 * 30)()
+  return(round(totalIncome, 2))
 }
 
+#' @export
+calculateYearlyIncome <- function(level, nAnimals) {
+
+  totalIncome <- mapply(calculateIncome, level, nAnimals) |>
+    sum() |>
+    (\(x) x * 24 * 30 * 365)()
+  return(round(totalIncome, 2))
+}
